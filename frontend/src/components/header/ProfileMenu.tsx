@@ -1,10 +1,11 @@
-import { Modal, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Image, Modal, Pressable, StyleSheet, Text, View } from 'react-native';
 import { router } from 'expo-router';
 import { LogOut, Settings, User } from 'lucide-react-native';
 
 import { profileMenuItems } from '../../config/roleTabs';
 import { useAuth } from '../../context/AuthContext';
 import { Colors, RoleColors } from '../../theme';
+import { resolveMediaUrl } from '../../utils/media';
 
 type ProfileMenuProps = {
   isOpen: boolean;
@@ -31,6 +32,7 @@ export function ProfileMenu({ isOpen, onToggle, onClose }: ProfileMenuProps) {
     : '?';
   const avatarBg = RoleColors[user?.activeRole ?? 'student'] ?? Colors.primary;
   const badgeTextColor = BADGE_TEXT_COLORS[user?.activeRole ?? ''] ?? avatarBg;
+  const profileImgUri = resolveMediaUrl(user?.profileImage);
 
   return (
     <View style={styles.wrapper}>
@@ -46,8 +48,12 @@ export function ProfileMenu({ isOpen, onToggle, onClose }: ProfileMenuProps) {
             accessibilityRole="button"
             accessibilityLabel="View profile"
           >
-            <View style={[styles.avatarSm, { backgroundColor: avatarBg }]}>
-              <Text style={styles.avatarSmText}>{initials}</Text>
+            <View style={[styles.avatarSm, { backgroundColor: avatarBg, overflow: 'hidden' }]}>
+              {profileImgUri ? (
+                <Image source={{ uri: profileImgUri }} style={styles.avatarImg} resizeMode="cover" />
+              ) : (
+                <Text style={styles.avatarSmText}>{initials}</Text>
+              )}
             </View>
             <View style={styles.userInfo}>
               <Text style={styles.userName} numberOfLines={1}>
@@ -104,11 +110,15 @@ export function ProfileMenu({ isOpen, onToggle, onClose }: ProfileMenuProps) {
       {/* Avatar trigger */}
       <Pressable
         onPress={onToggle}
-        style={[styles.avatar, { backgroundColor: avatarBg }]}
+        style={[styles.avatar, { backgroundColor: avatarBg, overflow: 'hidden' }]}
         accessibilityRole="button"
         accessibilityLabel="Open profile menu"
       >
-        <Text style={styles.avatarText}>{initials}</Text>
+        {profileImgUri ? (
+          <Image source={{ uri: profileImgUri }} style={styles.avatarImg} resizeMode="cover" />
+        ) : (
+          <Text style={styles.avatarText}>{initials}</Text>
+        )}
       </Pressable>
     </View>
   );
@@ -130,6 +140,10 @@ const styles = StyleSheet.create({
   avatar: {
     width: 34, height: 34, borderRadius: 17,
     alignItems: 'center', justifyContent: 'center',
+  },
+  avatarImg: {
+    width: '100%',
+    height: '100%',
   },
   avatarText: { fontSize: 13, fontWeight: '900', color: '#fff' },
 

@@ -1,5 +1,17 @@
 import { useState, useMemo } from 'react';
-import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, TextInput, View, Modal } from 'react-native';
+import {
+  ActivityIndicator,
+  Image,
+  Modal,
+  Platform,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  useWindowDimensions,
+} from 'react-native';
 import { router } from 'expo-router';
 import {
   LogOut,
@@ -7,7 +19,7 @@ import {
   Star,
   Flame,
   BookOpen,
-  Award,
+  Award,  
   Lock,
   Mail,
   Bell,
@@ -17,20 +29,25 @@ import {
   Shield,
   Check,
   Trash2,
+  Camera,
+  Image as ImageIcon,
+  X,
+  Upload,
   type LucideIcon,
 } from 'lucide-react-native';
 
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import * as ImagePicker from 'expo-image-picker';
 
 import { useAuth } from '../../src/context/AuthContext';
 import { useStudentProfile } from '../../src/context/StudentProfileContext';
 import { useClassLevels } from '../../src/hooks/useClassLevels';
 import { UserRole } from '../../src/types/roles';
 import { RoleColors, Colors } from '../../src/theme';
+import { resolveMediaUrl } from '../../src/utils/media';
+import { ImageCropModal } from '../../src/components/media/ImageCropModal';
+import { uploadPickedFileToS3 } from '../../src/utils/fileUpload';
 
-// Was a hardcoded duplicate of `RoleColors` with stale (pre-a11y-fix)
-// parent/admin/superadmin values that failed WCAG AA as a solid hero-card
-// background with white text — now sourced from the single theme copy.
 const ROLE_COLORS = RoleColors;
 
 const ROLE_ICONS: Record<string, LucideIcon> = {
@@ -43,9 +60,28 @@ const ROLE_ICONS: Record<string, LucideIcon> = {
 
 export default function ProfileScreen() {
   const insets = useSafeAreaInsets();
-  const { user, setActiveRole, signOut, apiFetch, deleteAccount, deleteChildAccount, studentSelectedClass, setStudentSelectedClass } = useAuth();
+  const { width } = useWindowDimensions();
+  const isDesktop = width >= 880;
+
+  const {
+    user,
+    setActiveRole,
+    signOut,
+    apiFetch,
+    deleteAccount,
+    deleteChildAccount,
+    studentSelectedClass,
+    setStudentSelectedClass,
+    updateProfileImage,
+  } = useAuth();
   const { classLevels } = useClassLevels();
   const { refreshAll } = useStudentProfile();
+
+  const [photoModalVisible, setPhotoModalVisible] = useState(false);
+  const [uploadingPhoto, setUploadingPhoto] = useState(false);
+  const [cropModalVisible, setCropModalVisible] = useState(false);
+  const [pendingImageUri, setPendingImageUri] = useState('');
+  const [photoError, setPhotoError] = useState('');
 
   const availableClassOptions = useMemo(() => {
     const isAll = user?.isAllStudentClasses || !user?.studentClasses || user.studentClasses.length === 0;
@@ -74,6 +110,7 @@ export default function ProfileScreen() {
     }
     return options;
   }, [user?.isAllStudentClasses, user?.studentClasses, classLevels]);
+
   const [connectId, setConnectId] = useState('');
   const [connectMessage, setConnectMessage] = useState('');
   const [connectError, setConnectError] = useState('');
@@ -95,7 +132,7 @@ export default function ProfileScreen() {
   const initials = user
     ? `${user.firstName?.[0] ?? ''}${user.lastName?.[0] ?? ''}`.toUpperCase()
     : '?';
-  const roleColor = ROLE_COLORS[user?.activeRole ?? 'student'];
+  const roleColor = ROLE_COLORS[user?.activeRole ?? 'student'] || '#2D5DC9';
   const canConnect = user?.activeRole === 'parent' || user?.activeRole === 'student';
 
   const handleConnect = async () => {
@@ -106,21 +143,35 @@ export default function ProfileScreen() {
     setConnectError('');
     setConnectMessage('');
     setConnecting(true);
+
     try {
-      const res = await apiFetch('/users/me/connect-by-registration-id', {
+      const res = await apiFetch('/api/v1/auth/connect-registration-id', {
         method: 'POST',
-        body: JSON.stringify({ registrationId: connectId.trim().toUpperCase() }),
+        body: JSON.stringify({ registrationId: connectId.trim() }),
       });
-      const payload = await res.json().catch(() => ({}));
-      if (!res.ok) throw new Error(payload.message || 'Failed to connect');
-      setConnectMessage(payload.message || 'Connected successfully');
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => null);
+        throw new Error(data?.message || 'Failed to connect. Please check the registration ID.');
+      }
+
+      setConnectMessage('Connected successfully!');
       setConnectId('');
       refreshAll();
-    } catch (error) {
-      setConnectError(error instanceof Error ? error.message : 'Failed to connect');
+    } catch (err: any) {
+      setConnectError(err.message || 'Connection failed');
     } finally {
       setConnecting(false);
     }
+  };
+
+  const handleDeleteChildAccount = () => {
+    if (!deleteChildId.trim()) {
+      setDeleteChildError("Please enter child's registration ID");
+      return;
+    }
+    setDeleteChildError('');
+    setDeleteChildModalVisible(true);
   };
 
   const handleDeleteAccount = () => {
@@ -133,19 +184,12 @@ export default function ProfileScreen() {
     setDeleteAccountError('');
     const res = await deleteAccount();
     setDeleteAccountLoading(false);
-    if (!res.success) {
-      setDeleteAccountError(res.error || "Failed to delete account");
-    } else {
+    if (res.success) {
       setDeleteModalVisible(false);
+      router.replace('/(auth)/login');
+    } else {
+      setDeleteAccountError(res.error || "Failed to delete account");
     }
-  };
-
-  const handleDeleteChildAccount = () => {
-    if (!deleteChildId.trim()) {
-      setDeleteChildError('Please enter child registration ID');
-      return;
-    }
-    setDeleteChildModalVisible(true);
   };
 
   const confirmDeleteChildAccount = async () => {
@@ -161,6 +205,423 @@ export default function ProfileScreen() {
     }
   };
 
+  const profileImgUri = resolveMediaUrl(user?.profileImage);
+
+  // Directly trigger photo picker on Web or open bottom sheet on Mobile
+  const handleTriggerPhotoUpload = () => {
+    setPhotoError('');
+    if (Platform.OS === 'web') {
+      if (typeof window !== 'undefined') {
+        const doc = (globalThis as any).document;
+        if (!doc) return;
+        const input = doc.createElement('input');
+        input.type = 'file';
+        input.accept = 'image/png,image/jpeg,image/webp,image/gif';
+        input.onchange = (e: any) => {
+          const file = e.target?.files?.[0];
+          if (!file) return;
+          const reader = new FileReader();
+          reader.onload = () => {
+            setPendingImageUri(String(reader.result || ''));
+            setPhotoModalVisible(false);
+            setCropModalVisible(true);
+          };
+          reader.readAsDataURL(file);
+        };
+        input.click();
+      }
+    } else {
+      setPhotoModalVisible(true);
+    }
+  };
+
+  const handlePickMobileImage = async (source: 'camera' | 'library') => {
+    setPhotoError('');
+    try {
+      const options: ImagePicker.ImagePickerOptions = {
+        mediaTypes: ['images'],
+        allowsEditing: true,
+        aspect: [1, 1],
+        quality: 0.85,
+        base64: true,
+      };
+
+      let result: ImagePicker.ImagePickerResult;
+      if (source === 'camera') {
+        const perm = await ImagePicker.requestCameraPermissionsAsync();
+        if (!perm.granted) {
+          setPhotoError('Camera permission is required');
+          return;
+        }
+        result = await ImagePicker.launchCameraAsync(options);
+      } else {
+        const perm = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (!perm.granted) {
+          setPhotoError('Media library permission is required');
+          return;
+        }
+        result = await ImagePicker.launchImageLibraryAsync(options);
+      }
+
+      if (result.canceled || !result.assets || result.assets.length === 0) return;
+      const asset = result.assets[0];
+      const dataUrl = asset.base64 ? `data:image/jpeg;base64,${asset.base64}` : asset.uri;
+      setPendingImageUri(dataUrl);
+      setPhotoModalVisible(false);
+      setCropModalVisible(true);
+    } catch (err: any) {
+      setPhotoError(err.message || 'Failed to select photo');
+    }
+  };
+
+  const uploadCroppedPhoto = async (dataUrl: string) => {
+    try {
+      setUploadingPhoto(true);
+      setPhotoError('');
+      const picked = {
+        dataUrl,
+        fileName: `avatar_${user?.id || 'profile'}_${Date.now()}.jpg`,
+        mimeType: 'image/jpeg',
+      };
+      const uploadRes = await uploadPickedFileToS3(picked, 'image', 'profile_photo');
+      const savedUrl = uploadRes.canonicalUrl || uploadRes.url;
+      const updateRes = await updateProfileImage(savedUrl);
+      if (!updateRes.success) {
+        setPhotoError(updateRes.error || 'Failed to update profile photo');
+      } else {
+        setPhotoModalVisible(false);
+        setCropModalVisible(false);
+        setPendingImageUri('');
+      }
+    } catch (err: any) {
+      if (err.message !== 'UPLOAD_CANCELLED') {
+        setPhotoError(err.message || 'Failed to upload photo');
+      }
+    } finally {
+      setUploadingPhoto(false);
+    }
+  };
+
+  const handleRemovePhoto = async () => {
+    try {
+      setUploadingPhoto(true);
+      setPhotoError('');
+      const res = await updateProfileImage(null);
+      if (!res.success) {
+        setPhotoError(res.error || 'Failed to remove photo');
+      } else {
+        setPhotoModalVisible(false);
+      }
+    } catch (err: any) {
+      setPhotoError(err.message || 'Failed to remove photo');
+    } finally {
+      setUploadingPhoto(false);
+    }
+  };
+
+  // ─── Sub-renderers ────────────────────────────────────────────────────────
+  const renderHeroCard = () => (
+    <View style={s.heroCard}>
+      {/* Background soft tint */}
+      <View style={[s.heroBackgroundHeader, { backgroundColor: roleColor }]} />
+
+      {/* Avatar Container */}
+      <View style={s.avatarWrapper}>
+        <Pressable
+          onPress={handleTriggerPhotoUpload}
+          style={s.avatarPressable}
+          accessibilityRole="button"
+          accessibilityLabel="Upload profile photo"
+        >
+          <View style={[s.avatar, { backgroundColor: roleColor }]}>
+            {profileImgUri ? (
+              <Image source={{ uri: profileImgUri }} style={s.avatarImg} resizeMode="cover" />
+            ) : (
+              <Text style={s.avatarInitials}>{initials}</Text>
+            )}
+            {uploadingPhoto && (
+              <View style={s.avatarLoadingOverlay}>
+                <ActivityIndicator size="small" color="#fff" />
+              </View>
+            )}
+          </View>
+          <View style={s.cameraBadge}>
+            <Camera size={14} color="#1E293B" />
+          </View>
+        </Pressable>
+      </View>
+
+      {/* Explicit Photo Action Buttons */}
+      <View style={s.photoActionsRow}>
+        <Pressable
+          style={[s.uploadPhotoBtn, { backgroundColor: Colors.primary || '#2D5DC9' }]}
+          onPress={handleTriggerPhotoUpload}
+          disabled={uploadingPhoto}
+        >
+          <Camera size={14} color="#FFFFFF" />
+          <Text style={s.uploadPhotoBtnText}>
+            {profileImgUri ? 'Change Photo' : 'Upload Photo'}
+          </Text>
+        </Pressable>
+
+        {!!profileImgUri && (
+          <Pressable
+            style={s.removePhotoBtn}
+            onPress={handleRemovePhoto}
+            disabled={uploadingPhoto}
+          >
+            <Trash2 size={13} color="#EF4444" />
+            <Text style={s.removePhotoBtnText}>Remove</Text>
+          </Pressable>
+        )}
+      </View>
+
+      {!!photoError && <Text style={s.photoErrorText}>{photoError}</Text>}
+
+      {/* User Info */}
+      <Text style={s.heroName}>{user ? `${user.firstName} ${user.lastName}` : ''}</Text>
+      <Text style={s.heroEmail}>{user?.email ?? ''}</Text>
+
+      {/* Role Pill Badge */}
+      <View style={[s.roleBadge, { backgroundColor: `${roleColor}14` }]}>
+        {(() => {
+          const RoleIcon = ROLE_ICONS[user?.activeRole ?? 'student'] ?? UserRound;
+          return <RoleIcon size={14} color={roleColor} />;
+        })()}
+        <Text style={[s.roleBadgeText, { color: roleColor }]}>
+          {user?.activeRole?.toUpperCase() ?? ''}
+        </Text>
+      </View>
+
+      {/* Optional registration / student ID chip */}
+      {user?.registrationId && (
+        <View style={s.regIdChip}>
+          <Text style={s.regIdLabel}>REG ID:</Text>
+          <Text style={s.regIdValue}>{user.registrationId}</Text>
+        </View>
+      )}
+    </View>
+  );
+
+  const renderStatsCard = () => (
+    <View style={s.statsCard}>
+      <Text style={s.cardHeaderTitle}>Learning Activity</Text>
+      <View style={s.statsGrid}>
+        {[
+          { icon: <Star size={18} color="#D97706" fill="#D97706" />, val: '1,200', label: 'XP Points', bg: '#FEF3C7' },
+          { icon: <Flame size={18} color="#EA580C" />, val: '7', label: 'Day Streak', bg: '#FFEDD5' },
+          { icon: <BookOpen size={18} color="#2563EB" />, val: '27', label: 'Lessons', bg: '#DBEAFE' },
+          { icon: <Award size={18} color="#7C3AED" />, val: '5', label: 'Badges', bg: '#EDE9FE' },
+        ].map((item) => (
+          <View key={item.label} style={s.statBox}>
+            <View style={[s.statIconCircle, { backgroundColor: item.bg }]}>
+              {item.icon}
+            </View>
+            <Text style={s.statVal}>{item.val}</Text>
+            <Text style={s.statLabel}>{item.label}</Text>
+          </View>
+        ))}
+      </View>
+    </View>
+  );
+
+  const renderRoleSwitcher = () => {
+    if ((user?.roles?.length ?? 0) <= 1) return null;
+    return (
+      <View style={s.cardWrapper}>
+        <Text style={s.cardHeaderTitle}>Switch Role</Text>
+        <View style={s.cardBody}>
+          {user?.roles.map((role, idx, arr) => {
+            const isActive = role === user.activeRole;
+            const color = ROLE_COLORS[role] ?? '#2D5DC9';
+            return (
+              <Pressable
+                key={role}
+                onPress={() => handleRoleSelect(role)}
+                style={[s.roleRow, idx < arr.length - 1 && s.rowDivider]}
+              >
+                <View style={[s.roleIcon, { backgroundColor: `${color}16` }]}>
+                  {(() => {
+                    const RoleIcon = ROLE_ICONS[role] ?? UserRound;
+                    return <RoleIcon size={18} color={color} />;
+                  })()}
+                </View>
+                <View style={s.roleInfo}>
+                  <Text style={s.roleName}>{role.charAt(0).toUpperCase() + role.slice(1)}</Text>
+                  <Text style={s.roleDesc}>{isActive ? 'Currently active' : 'Tap to switch'}</Text>
+                </View>
+                {isActive ? (
+                  <View style={[s.activeCheck, { backgroundColor: color }]}>
+                    <Check size={13} color="#fff" strokeWidth={3} />
+                  </View>
+                ) : (
+                  <ChevronRight size={16} color="#94A3B8" />
+                )}
+              </Pressable>
+            );
+          })}
+        </View>
+      </View>
+    );
+  };
+
+  const renderClassSwitcher = () => {
+    if (user?.activeRole !== 'student' || availableClassOptions.length <= 1) return null;
+    return (
+      <View style={s.cardWrapper}>
+        <Text style={s.cardHeaderTitle}>Select Class</Text>
+        <View style={s.cardBody}>
+          {availableClassOptions.map((opt, idx, arr) => {
+            const isSelected = (!studentSelectedClass && opt.key === 'ANY') || studentSelectedClass === opt.key;
+            const color = Colors.primary;
+            return (
+              <Pressable
+                key={opt.key}
+                onPress={() => setStudentSelectedClass(opt.key)}
+                style={[s.roleRow, idx < arr.length - 1 && s.rowDivider]}
+              >
+                <View style={[s.roleIcon, { backgroundColor: '#EEF2FF' }]}>
+                  <GraduationCap size={18} color={color} />
+                </View>
+                <View style={s.roleInfo}>
+                  <Text style={s.roleName}>{opt.label}</Text>
+                  <Text style={s.roleDesc}>{isSelected ? 'Active class view' : 'Tap to switch'}</Text>
+                </View>
+                {isSelected ? (
+                  <View style={[s.activeCheck, { backgroundColor: color }]}>
+                    <Check size={13} color="#fff" strokeWidth={3} />
+                  </View>
+                ) : (
+                  <ChevronRight size={16} color="#94A3B8" />
+                )}
+              </Pressable>
+            );
+          })}
+        </View>
+      </View>
+    );
+  };
+
+  const renderConnectCard = () => {
+    if (!canConnect) return null;
+    return (
+      <View style={s.cardWrapper}>
+        <Text style={s.cardHeaderTitle}>Family Connections</Text>
+        <View style={s.cardBody}>
+          <View style={s.connectInner}>
+            <Text style={s.connectTitle}>
+              {user?.activeRole === 'parent' ? 'Add Kid by Registration ID' : 'Add Parent by Registration ID'}
+            </Text>
+            <Text style={s.connectSubtitle}>
+              Link family members to view academic progress, assignments, and test reports.
+            </Text>
+            <View style={s.connectInputRow}>
+              <TextInput
+                value={connectId}
+                onChangeText={setConnectId}
+                autoCapitalize="characters"
+                placeholder="ELS-XXXXXXXXXX"
+                placeholderTextColor="#94A3B8"
+                style={s.connectInput}
+              />
+              <Pressable
+                style={[s.connectBtn, connecting && s.btnDisabled]}
+                onPress={handleConnect}
+                disabled={connecting}
+              >
+                {connecting ? (
+                  <ActivityIndicator size="small" color="#fff" />
+                ) : (
+                  <Text style={s.connectBtnText}>Connect</Text>
+                )}
+              </Pressable>
+            </View>
+            {!!connectMessage && <Text style={s.connectSuccess}>{connectMessage}</Text>}
+            {!!connectError && <Text style={s.connectError}>{connectError}</Text>}
+          </View>
+        </View>
+      </View>
+    );
+  };
+
+  const renderParentDangerCard = () => {
+    if (user?.activeRole !== 'parent') return null;
+    return (
+      <View style={s.cardWrapper}>
+        <Text style={s.cardHeaderTitle}>Manage Child Account</Text>
+        <View style={s.cardBody}>
+          <View style={s.connectInner}>
+            <Text style={s.connectTitle}>Delete Child's Account</Text>
+            <Text style={s.connectSubtitle}>Enter child's registration ID to remove their account from the platform.</Text>
+            <View style={s.connectInputRow}>
+              <TextInput
+                value={deleteChildId}
+                onChangeText={setDeleteChildId}
+                autoCapitalize="characters"
+                placeholder="ELS-XXXXXXXXXX"
+                placeholderTextColor="#94A3B8"
+                style={s.connectInput}
+              />
+              <Pressable
+                style={[s.deleteChildBtn, deleteChildLoading && s.btnDisabled]}
+                onPress={handleDeleteChildAccount}
+                disabled={deleteChildLoading}
+              >
+                {deleteChildLoading ? (
+                  <ActivityIndicator size="small" color="#fff" />
+                ) : (
+                  <Text style={s.deleteChildBtnText}>Delete</Text>
+                )}
+              </Pressable>
+            </View>
+            {!!deleteChildError && <Text style={s.connectError}>{deleteChildError}</Text>}
+          </View>
+        </View>
+      </View>
+    );
+  };
+
+  const renderAccountCard = () => (
+    <View style={s.cardWrapper}>
+      <Text style={s.cardHeaderTitle}>Account & Security</Text>
+      <View style={s.cardBody}>
+        {[
+          { Icon: Lock, label: 'Change Password', sub: 'Update security password', color: '#2563EB', onPress: () => router.push('/(tabs)/settings') },
+          { Icon: Mail, label: 'Update Email', sub: user?.email ?? '', color: '#16A34A' },
+          { Icon: Bell, label: 'Notifications', sub: 'Manage push & in-app alerts', color: '#D97706', onPress: () => router.push('/(tabs)/settings') },
+        ].map((item, idx, arr) => (
+          <Pressable
+            key={item.label}
+            style={[s.menuRow, idx < arr.length - 1 && s.rowDivider]}
+            onPress={item.onPress}
+          >
+            <View style={[s.menuIconBox, { backgroundColor: `${item.color}14` }]}>
+              <item.Icon size={18} color={item.color} />
+            </View>
+            <View style={s.menuInfo}>
+              <Text style={s.menuLabel}>{item.label}</Text>
+              <Text style={s.menuSub} numberOfLines={1}>{item.sub}</Text>
+            </View>
+            <ChevronRight size={16} color="#94A3B8" />
+          </Pressable>
+        ))}
+      </View>
+    </View>
+  );
+
+  const renderSignOutButton = () => (
+    <Pressable style={s.logOutBtn} onPress={() => signOut()}>
+      <LogOut size={17} color="#2563EB" />
+      <Text style={s.logOutText}>Log Out</Text>
+    </Pressable>
+  );
+
+  const renderDeleteAccountCard = () => (
+    <Pressable style={s.deleteAccountBtn} onPress={handleDeleteAccount}>
+      <Trash2 size={16} color="#EF4444" />
+      <Text style={s.deleteAccountText}>Delete Account</Text>
+    </Pressable>
+  );
 
   return (
     <ScrollView
@@ -168,217 +629,45 @@ export default function ProfileScreen() {
       contentContainerStyle={[
         s.scroll,
         {
-          paddingBottom: Math.max(140, insets.bottom + 100),
-          maxWidth: 760,
-          width: '100%',
-          alignSelf: 'center',
+          paddingBottom: Math.max(120, insets.bottom + 80),
         },
       ]}
       showsVerticalScrollIndicator={false}
     >
+      {isDesktop ? (
+        <View style={s.desktopContainer}>
+          {/* Left Column (360px Sidebar) */}
+          <View style={s.desktopSidebar}>
+            {renderHeroCard()}
+            {renderStatsCard()}
+            {renderRoleSwitcher()}
+            {renderSignOutButton()}
+          </View>
 
-      {/* ─── Hero card ─────────────────────────────────────────────────── */}
-      <View style={[s.heroCard, { backgroundColor: roleColor }]}>
-        <View style={[s.blob1, { backgroundColor: 'rgba(255,255,255,0.12)' }]} />
-        <View style={[s.blob2, { backgroundColor: 'rgba(255,255,255,0.08)' }]} />
-
-        {/* Avatar — darkening (not lightening) overlay so white initials keep
-            WCAG AA contrast against the role-colored hero background */}
-        <View style={s.avatarRing}>
-          <View style={[s.avatar, { backgroundColor: 'rgba(0,0,0,0.18)' }]}>
-            <Text style={s.avatarInitials}>{initials}</Text>
+          {/* Right Column (Main content) */}
+          <View style={s.desktopMainContent}>
+            {renderClassSwitcher()}
+            {renderConnectCard()}
+            {renderParentDangerCard()}
+            {renderAccountCard()}
+            {renderDeleteAccountCard()}
           </View>
         </View>
-
-        <Text style={s.heroName}>{user ? `${user.firstName} ${user.lastName}` : ''}</Text>
-        <Text style={s.heroEmail}>{user?.email ?? ''}</Text>
-
-        {/* Role badge */}
-        <View style={s.roleBadge}>
-          {(() => {
-            const RoleIcon = ROLE_ICONS[user?.activeRole ?? 'student'] ?? UserRound;
-            return <RoleIcon size={14} color="#fff" />;
-          })()}
-          <Text style={s.roleBadgeText}>{user?.activeRole?.toUpperCase() ?? ''}</Text>
+      ) : (
+        <View style={s.mobileContainer}>
+          {renderHeroCard()}
+          {renderStatsCard()}
+          {renderRoleSwitcher()}
+          {renderClassSwitcher()}
+          {renderConnectCard()}
+          {renderParentDangerCard()}
+          {renderAccountCard()}
+          {renderSignOutButton()}
+          {renderDeleteAccountCard()}
         </View>
-      </View>
-
-      {/* ─── Stats row ─────────────────────────────────────────────────── */}
-      <View style={s.statsRow}>
-        {[
-          { icon: <Star   size={18} color="#E6A817" fill="#E6A817" />, val: '1,200',  label: 'XP Points' },
-          { icon: <Flame  size={18} color="#D33F13" />,                val: '7',      label: 'Day Streak' },
-          { icon: <BookOpen size={18} color="#2D5DC9" />,              val: '27',     label: 'Lessons' },
-          { icon: <Award  size={18} color="#9B8EC4" />,                val: '5',      label: 'Badges' },
-        ].map((item) => (
-          <View key={item.label} style={s.statItem}>
-            {item.icon}
-            <Text style={s.statVal}>{item.val}</Text>
-            <Text style={s.statLabel}>{item.label}</Text>
-          </View>
-        ))}
-      </View>
-
-      {/* ─── Switch role ───────────────────────────────────────────────── */}
-      {(user?.roles?.length ?? 0) > 1 && (
-        <>
-          <Text style={s.sectionTitle}>Switch Role</Text>
-          <View style={s.rolesCard}>
-            {user?.roles.map((role, idx, arr) => {
-              const isActive = role === user.activeRole;
-              const color    = ROLE_COLORS[role] ?? '#2D5DC9';
-              return (
-                <Pressable
-                  key={role}
-                  onPress={() => handleRoleSelect(role)}
-                  style={[s.roleRow, idx < arr.length - 1 && s.roleRowBorder]}
-                >
-                  <View style={[s.roleIcon, { backgroundColor: `${color}18` }]}>
-                    {(() => {
-                      const RoleIcon = ROLE_ICONS[role] ?? UserRound;
-                      return <RoleIcon size={18} color={color} />;
-                    })()}
-                  </View>
-                  <View style={s.roleInfo}>
-                    <Text style={s.roleName}>{role.charAt(0).toUpperCase() + role.slice(1)}</Text>
-                    <Text style={s.roleDesc}>{isActive ? 'Currently active' : 'Tap to switch'}</Text>
-                  </View>
-                  {isActive
-                    ? (
-                      <View style={[s.activeCheck, { backgroundColor: color }]}>
-                        <Check size={13} color="#fff" strokeWidth={3} />
-                      </View>
-                    )
-                    : <ChevronRight size={16} color="#C0C8D8" />}
-                </Pressable>
-              );
-            })}
-          </View>
-        </>
       )}
 
-      {/* ─── Switch class (student only) ────────────────────────────── */}
-      {user?.activeRole === 'student' && availableClassOptions.length > 1 && (
-        <>
-          <Text style={s.sectionTitle}>Select Class</Text>
-          <View style={s.rolesCard}>
-            {availableClassOptions.map((opt, idx, arr) => {
-              const isSelected = (!studentSelectedClass && opt.key === 'ANY') || studentSelectedClass === opt.key;
-              const color = Colors.primary;
-              return (
-                <Pressable
-                  key={opt.key}
-                  onPress={() => setStudentSelectedClass(opt.key)}
-                  style={[s.roleRow, idx < arr.length - 1 && s.roleRowBorder]}
-                >
-                  <View style={[s.roleIcon, { backgroundColor: '#EEF2FF' }]}>
-                    <GraduationCap size={18} color={color} />
-                  </View>
-                  <View style={s.roleInfo}>
-                    <Text style={s.roleName}>{opt.label}</Text>
-                    <Text style={s.roleDesc}>{isSelected ? 'Currently active class' : 'Tap to switch'}</Text>
-                  </View>
-                  {isSelected ? (
-                    <View style={[s.activeCheck, { backgroundColor: color }]}>
-                      <Check size={13} color="#fff" strokeWidth={3} />
-                    </View>
-                  ) : (
-                    <ChevronRight size={16} color="#C0C8D8" />
-                  )}
-                </Pressable>
-              );
-            })}
-          </View>
-        </>
-      )}
-
-      {/* ─── Account section ───────────────────────────────────────────── */}
-      <Text style={s.sectionTitle}>Account</Text>
-      <View style={s.menuCard}>
-        {[
-          { Icon: Lock, label: 'Change Password', sub: 'Update your password', color: '#2D5DC9', onPress: () => router.push('/(tabs)/settings') },
-          { Icon: Mail, label: 'Update Email',     sub: user?.email ?? '',      color: '#7DC67A' },
-          { Icon: Bell, label: 'Notifications',    sub: 'Manage alerts',        color: '#E6A817', onPress: () => router.push('/(tabs)/settings') },
-        ].map((item, idx, arr) => (
-          <Pressable
-            key={item.label}
-            style={[s.menuRow, idx < arr.length - 1 && s.menuBorder]}
-            onPress={item.onPress}
-          >
-            <View style={[s.menuIconBox, { backgroundColor: `${item.color}18` }]}>
-              <item.Icon size={18} color={item.color} />
-            </View>
-            <View style={s.menuInfo}>
-              <Text style={s.menuLabel}>{item.label}</Text>
-              <Text style={s.menuSub} numberOfLines={1}>{item.sub}</Text>
-            </View>
-            <ChevronRight size={16} color="#C0C8D8" />
-          </Pressable>
-        ))}
-      </View>
-
-      {canConnect && (
-        <>
-          <Text style={s.sectionTitle}>Connect</Text>
-          <View style={s.menuCard}>
-            <View style={s.connectWrap}>
-              <Text style={s.connectTitle}>
-                {user?.activeRole === 'parent' ? 'Add Kid by Registration ID' : 'Add Parent by Registration ID'}
-              </Text>
-              <TextInput
-                value={connectId}
-                onChangeText={setConnectId}
-                autoCapitalize="characters"
-                placeholder="ELS-XXXXXXXXXX"
-                placeholderTextColor="#525C6B"
-                style={s.connectInput}
-              />
-              <Pressable style={s.connectBtn} onPress={handleConnect} disabled={connecting}>
-                {connecting ? <ActivityIndicator accessibilityLabel="Loading" color="#fff" /> : <Text style={s.connectBtnText}>Connect</Text>}
-              </Pressable>
-              {!!connectMessage && <Text style={s.connectSuccess}>{connectMessage}</Text>}
-              {!!connectError && <Text style={s.connectError}>{connectError}</Text>}
-            </View>
-          </View>
-        </>
-      )}
-
-      {user?.activeRole === 'parent' && (
-        <>
-          <Text style={s.sectionTitle}>Danger Zone</Text>
-          <View style={[s.menuCard, s.dangerCard]}>
-            <View style={s.connectWrap}>
-              <Text style={s.connectTitle}>Delete Child's Account</Text>
-              <Text style={s.menuSub}>Enter child's registration ID to delete their account</Text>
-              <TextInput
-                value={deleteChildId}
-                onChangeText={setDeleteChildId}
-                autoCapitalize="characters"
-                placeholder="ELS-XXXXXXXXXX"
-                placeholderTextColor="#525C6B"
-                style={s.connectInput}
-              />
-              <Pressable style={s.deleteBtn} onPress={handleDeleteChildAccount} disabled={deleteChildLoading}>
-                {deleteChildLoading ? <ActivityIndicator accessibilityLabel="Loading" color="#fff" /> : <Text style={s.deleteBtnText}>Delete Child's Account</Text>}
-              </Pressable>
-              {!!deleteChildError && <Text style={s.connectError}>{deleteChildError}</Text>}
-            </View>
-          </View>
-        </>
-      )}
-
-      {/* ─── Log Out ──────────────────────────────────────────────────────────── */}
-      <Pressable style={s.logOutBtn} onPress={() => signOut()}>
-        <LogOut size={18} color="#2D5DC9" />
-        <Text style={s.logOutText}>Log Out</Text>
-      </Pressable>
-
-      {/* ─── Delete Account ──────────────────────────────────────────────────── */}
-      <Pressable style={s.signOutBtn} onPress={handleDeleteAccount}>
-        <Trash2 size={18} color="#FF4444" />
-        <Text style={s.signOutText}>Delete Account</Text>
-      </Pressable>
-
+      {/* ─── Delete Account Modal ────────────────────────────────────── */}
       <Modal
         visible={deleteModalVisible}
         transparent={true}
@@ -405,6 +694,7 @@ export default function ProfileScreen() {
         </View>
       </Modal>
 
+      {/* ─── Delete Child Modal ──────────────────────────────────────── */}
       <Modal
         visible={deleteChildModalVisible}
         transparent={true}
@@ -431,204 +721,691 @@ export default function ProfileScreen() {
         </View>
       </Modal>
 
+      {/* ─── Mobile Photo Options Sheet ──────────────────────────────── */}
+      <Modal
+        visible={photoModalVisible}
+        transparent={true}
+        animationType="fade"
+        onRequestClose={() => setPhotoModalVisible(false)}
+      >
+        <Pressable style={s.modalOverlay} onPress={() => setPhotoModalVisible(false)}>
+          <Pressable style={s.photoSheetContent} onPress={(e) => e.stopPropagation()}>
+            <View style={s.photoSheetHeader}>
+              <Text style={s.modalTitle}>Profile Photo</Text>
+              <Pressable
+                onPress={() => setPhotoModalVisible(false)}
+                style={s.photoSheetCloseBtn}
+                accessibilityRole="button"
+                accessibilityLabel="Close"
+              >
+                <X size={18} color="#64748B" />
+              </Pressable>
+            </View>
+
+            {!!photoError && <Text style={s.connectError}>{photoError}</Text>}
+
+            <View style={s.photoOptionsList}>
+              <Pressable
+                style={s.photoOptionRow}
+                onPress={() => handlePickMobileImage('camera')}
+                accessibilityRole="button"
+              >
+                <View style={[s.photoOptionIconBox, { backgroundColor: '#EEF2FF' }]}>
+                  <Camera size={20} color="#4F46E5" />
+                </View>
+                <View style={s.photoOptionTextCol}>
+                  <Text style={s.photoOptionTitle}>Take Photo</Text>
+                  <Text style={s.photoOptionSubtitle}>Use camera to capture a new picture</Text>
+                </View>
+              </Pressable>
+
+              <Pressable
+                style={s.photoOptionRow}
+                onPress={() => handlePickMobileImage('library')}
+                accessibilityRole="button"
+              >
+                <View style={[s.photoOptionIconBox, { backgroundColor: '#F0FDF4' }]}>
+                  <ImageIcon size={20} color="#16A34A" />
+                </View>
+                <View style={s.photoOptionTextCol}>
+                  <Text style={s.photoOptionTitle}>Choose from Gallery</Text>
+                  <Text style={s.photoOptionSubtitle}>Select an existing image from device</Text>
+                </View>
+              </Pressable>
+
+              {!!profileImgUri && (
+                <Pressable
+                  style={[s.photoOptionRow, s.photoOptionRowDanger]}
+                  onPress={handleRemovePhoto}
+                  accessibilityRole="button"
+                >
+                  <View style={[s.photoOptionIconBox, { backgroundColor: '#FEE2E2' }]}>
+                    <Trash2 size={20} color="#DC2626" />
+                  </View>
+                  <View style={s.photoOptionTextCol}>
+                    <Text style={[s.photoOptionTitle, { color: '#DC2626' }]}>Remove Photo</Text>
+                    <Text style={s.photoOptionSubtitle}>Revert to initials avatar</Text>
+                  </View>
+                </Pressable>
+              )}
+            </View>
+          </Pressable>
+        </Pressable>
+      </Modal>
+
+      {/* ─── Interactive Image Crop Modal (Desktop & Mobile) ─────────── */}
+      <ImageCropModal
+        visible={cropModalVisible}
+        imageUri={pendingImageUri}
+        onClose={() => {
+          setCropModalVisible(false);
+          setPendingImageUri('');
+        }}
+        onCropComplete={(croppedDataUrl) => {
+          uploadCroppedPhoto(croppedDataUrl);
+        }}
+      />
     </ScrollView>
   );
 }
 
 const s = StyleSheet.create({
-  screen: { flex: 1, backgroundColor: '#F8F9FF' },
-  scroll: { paddingBottom: 48 },
-
-  // Hero
-  heroCard: {
-    marginHorizontal: 16, marginTop: 12, marginBottom: 16,
-    borderRadius: 28, padding: 24,
-    alignItems: 'center', gap: 6,
-    overflow: 'hidden', position: 'relative',
+  screen: {
+    flex: 1,
+    backgroundColor: '#F8FAFC',
   },
-  blob1: { position: 'absolute', width: 160, height: 160, borderRadius: 80, top: -50, right: -40 },
-  blob2: { position: 'absolute', width: 120, height: 120, borderRadius: 60, bottom: -30, left: -20 },
-  avatarRing: {
-    width: 84, height: 84, borderRadius: 42,
-    backgroundColor: 'rgba(255,255,255,0.25)',
-    alignItems: 'center', justifyContent: 'center',
-    marginBottom: 4,
+  scroll: {
+    paddingTop: 16,
+  },
+
+  // Responsive Layout Containers
+  desktopContainer: {
+    maxWidth: 1140,
+    width: '100%',
+    alignSelf: 'center',
+    flexDirection: 'row',
+    gap: 24,
+    paddingHorizontal: 24,
+    alignItems: 'flex-start',
+  },
+  desktopSidebar: {
+    width: 360,
+    flexShrink: 0,
+    gap: 20,
+  },
+  desktopMainContent: {
+    flex: 1,
+    gap: 20,
+  },
+  mobileContainer: {
+    maxWidth: 580,
+    width: '100%',
+    alignSelf: 'center',
+    paddingHorizontal: 16,
+    gap: 18,
+  },
+
+  // Hero Card
+  heroCard: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: '#E8ECF4',
+    padding: 22,
+    alignItems: 'center',
+    overflow: 'hidden',
+    position: 'relative',
+    shadowColor: '#0F172A',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.04,
+    shadowRadius: 10,
+    elevation: 2,
+  },
+  heroBackgroundHeader: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    height: 72,
+    opacity: 0.12,
+  },
+  avatarWrapper: {
+    marginTop: 12,
+    marginBottom: 12,
+    position: 'relative',
+  },
+  avatarPressable: {
+    position: 'relative',
   },
   avatar: {
-    width: 70, height: 70, borderRadius: 35,
-    alignItems: 'center', justifyContent: 'center',
+    width: 96,
+    height: 96,
+    borderRadius: 48,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 3,
+    borderColor: '#FFFFFF',
+    shadowColor: '#0F172A',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 3,
   },
-  avatarInitials: { fontSize: 26, fontWeight: '900', color: '#fff' },
-  heroName:  { fontSize: 20, fontWeight: '900', color: '#fff' },
-  heroEmail: { fontSize: 12, fontWeight: '500', color: '#fff' },
+  avatarImg: {
+    width: '100%',
+    height: '100%',
+  },
+  avatarInitials: {
+    fontSize: 32,
+    fontWeight: '800',
+    color: '#FFFFFF',
+    letterSpacing: 1,
+  },
+  avatarLoadingOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(0,0,0,0.45)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  cameraBadge: {
+    position: 'absolute',
+    bottom: 0,
+    right: 0,
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1,
+    borderColor: '#E2E8F0',
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: '#0F172A',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.12,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+
+  // Dedicated Photo Buttons
+  photoActionsRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 10,
+    marginBottom: 14,
+  },
+  uploadPhotoBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    paddingVertical: 7,
+    paddingHorizontal: 14,
+    borderRadius: 10,
+    backgroundColor: '#2563EB',
+    shadowColor: '#2563EB',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.15,
+    shadowRadius: 4,
+    elevation: 2,
+  },
+  uploadPhotoBtnText: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: '#FFFFFF',
+  },
+  removePhotoBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    paddingVertical: 7,
+    paddingHorizontal: 10,
+    borderRadius: 10,
+    backgroundColor: '#FEE2E2',
+    borderWidth: 1,
+    borderColor: '#FECACA',
+  },
+  removePhotoBtnText: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: '#EF4444',
+  },
+  photoErrorText: {
+    fontSize: 12,
+    color: '#DC2626',
+    fontWeight: '600',
+    marginBottom: 8,
+    textAlign: 'center',
+  },
+
+  heroName: {
+    fontSize: 20,
+    fontWeight: '800',
+    color: '#0F172A',
+    marginBottom: 2,
+    textAlign: 'center',
+  },
+  heroEmail: {
+    fontSize: 13,
+    fontWeight: '500',
+    color: '#64748B',
+    marginBottom: 10,
+    textAlign: 'center',
+  },
   roleBadge: {
-    flexDirection: 'row', alignItems: 'center', gap: 5,
-    // Darkening (not lightening) overlay — see avatar comment above.
-    backgroundColor: 'rgba(0,0,0,0.18)',
-    borderRadius: 999, paddingHorizontal: 12, paddingVertical: 5,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    borderRadius: 999,
+    paddingHorizontal: 12,
+    paddingVertical: 5,
+    borderWidth: 1,
+    borderColor: '#E2E8F0',
+  },
+  roleBadgeText: {
+    fontSize: 11,
+    fontWeight: '800',
+    letterSpacing: 0.6,
+  },
+  regIdChip: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5,
+    marginTop: 10,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 8,
+    backgroundColor: '#F1F5F9',
+  },
+  regIdLabel: {
+    fontSize: 10,
+    fontWeight: '700',
+    color: '#64748B',
+    letterSpacing: 0.5,
+  },
+  regIdValue: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: '#1E293B',
+    fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
+  },
+
+  // Stats Card
+  statsCard: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: '#E8ECF4',
+    padding: 18,
+    gap: 14,
+    shadowColor: '#0F172A',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.04,
+    shadowRadius: 8,
+    elevation: 1,
+  },
+  statsGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 12,
+  },
+  statBox: {
+    flex: 1,
+    minWidth: '45%',
+    backgroundColor: '#F8FAFC',
+    borderRadius: 14,
+    padding: 12,
+    alignItems: 'center',
+    gap: 4,
+    borderWidth: 1,
+    borderColor: '#F1F5F9',
+  },
+  statIconCircle: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 2,
+  },
+  statVal: {
+    fontSize: 16,
+    fontWeight: '800',
+    color: '#0F172A',
+  },
+  statLabel: {
+    fontSize: 11,
+    fontWeight: '600',
+    color: '#64748B',
+  },
+
+  // Generic Card Wrapper
+  cardWrapper: {
+    gap: 8,
+  },
+  cardHeaderTitle: {
+    fontSize: 13,
+    fontWeight: '800',
+    color: '#475569',
+    textTransform: 'uppercase',
+    letterSpacing: 0.6,
+    paddingHorizontal: 4,
+  },
+  cardBody: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: '#E8ECF4',
+    shadowColor: '#0F172A',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.04,
+    shadowRadius: 8,
+    elevation: 1,
+    overflow: 'hidden',
+  },
+
+  // Row list items
+  roleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 14,
+    gap: 12,
+  },
+  rowDivider: {
+    borderBottomWidth: 1,
+    borderBottomColor: '#F1F5F9',
+  },
+  roleIcon: {
+    width: 40,
+    height: 40,
+    borderRadius: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  roleInfo: {
+    flex: 1,
+  },
+  roleName: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: '#0F172A',
+  },
+  roleDesc: {
+    fontSize: 12,
+    fontWeight: '500',
+    color: '#64748B',
+    marginTop: 1,
+  },
+  activeCheck: {
+    width: 22,
+    height: 22,
+    borderRadius: 11,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  // Menu Rows
+  menuRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 14,
+    gap: 12,
+  },
+  menuIconBox: {
+    width: 38,
+    height: 38,
+    borderRadius: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  menuInfo: {
+    flex: 1,
+  },
+  menuLabel: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: '#0F172A',
+  },
+  menuSub: {
+    fontSize: 12,
+    fontWeight: '500',
+    color: '#64748B',
+    marginTop: 1,
+  },
+
+  // Connect Section
+  connectInner: {
+    padding: 16,
+    gap: 10,
+  },
+  connectTitle: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: '#0F172A',
+  },
+  connectSubtitle: {
+    fontSize: 12,
+    color: '#64748B',
+    lineHeight: 18,
+  },
+  connectInputRow: {
+    flexDirection: 'row',
+    gap: 10,
     marginTop: 4,
   },
-  roleBadgeText:  { fontSize: 11, fontWeight: '800', color: '#fff', letterSpacing: 0.5 },
-
-  // Stats
-  statsRow: {
-    flexDirection: 'row',
-    marginHorizontal: 16, marginBottom: 20,
-    backgroundColor: '#fff',
-    borderRadius: 20, padding: 16,
-    justifyContent: 'space-around',
-    shadowColor: '#C5D8F8', shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3, shadowRadius: 8, elevation: 2,
-    borderWidth: 1, borderColor: '#F0F0F8',
-  },
-  statItem:  { alignItems: 'center', gap: 3 },
-  statVal:   { fontSize: 17, fontWeight: '900', color: '#1a1a2e' },
-  statLabel: { fontSize: 10, fontWeight: '600', color: '#525C6B' },
-
-  // Section title
-  sectionTitle: {
-    fontSize: 14, fontWeight: '800', color: '#5A5A7A',
-    paddingHorizontal: 20, marginBottom: 8, textTransform: 'uppercase', letterSpacing: 0.5,
-  },
-
-  // Roles card
-  rolesCard: {
-    marginHorizontal: 16, marginBottom: 20,
-    backgroundColor: '#fff', borderRadius: 20,
-    borderWidth: 1, borderColor: '#F0F0F8',
-    shadowColor: '#C5D8F8', shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3, shadowRadius: 8, elevation: 2,
-  },
-  roleRow:       { flexDirection: 'row', alignItems: 'center', padding: 14, gap: 12 },
-  roleRowBorder: { borderBottomWidth: 1, borderBottomColor: '#F5F5FB' },
-  roleIcon:      { width: 42, height: 42, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },
-  roleInfo:      { flex: 1 },
-  roleName:      { fontSize: 14, fontWeight: '800', color: '#1a1a2e' },
-  roleDesc:      { fontSize: 11, fontWeight: '500', color: '#525C6B', marginTop: 1 },
-  activeCheck: {
-    width: 24, height: 24, borderRadius: 12,
-    alignItems: 'center', justifyContent: 'center',
-  },
-
-  // Menu card
-  menuCard: {
-    marginHorizontal: 16, marginBottom: 20,
-    backgroundColor: '#fff', borderRadius: 20,
-    borderWidth: 1, borderColor: '#F0F0F8',
-    shadowColor: '#C5D8F8', shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3, shadowRadius: 8, elevation: 2,
-  },
-  menuRow:    { flexDirection: 'row', alignItems: 'center', padding: 14, gap: 12 },
-  menuBorder: { borderBottomWidth: 1, borderBottomColor: '#F5F5FB' },
-  menuIconBox:{ width: 40, height: 40, borderRadius: 12, backgroundColor: '#F4F5FF', alignItems: 'center', justifyContent: 'center' },
-  menuInfo:   { flex: 1 },
-  menuLabel:  { fontSize: 14, fontWeight: '700', color: '#1a1a2e' },
-  menuSub:    { fontSize: 11, fontWeight: '500', color: '#525C6B', marginTop: 1 },
-  connectWrap: { padding: 14, gap: 8 },
-  connectTitle: { fontSize: 13, fontWeight: '700', color: '#1a1a2e' },
   connectInput: {
+    flex: 1,
     borderWidth: 1,
-    borderColor: '#E0E4F0',
+    borderColor: '#E2E8F0',
     borderRadius: 12,
     paddingHorizontal: 12,
     paddingVertical: 10,
     fontSize: 13,
-    color: '#1a1a2e',
-    backgroundColor: '#F8F9FF',
+    color: '#0F172A',
+    backgroundColor: '#F8FAFC',
   },
   connectBtn: {
-    backgroundColor: '#2D5DC9',
+    backgroundColor: '#2563EB',
     borderRadius: 12,
-    paddingVertical: 11,
+    paddingHorizontal: 18,
     alignItems: 'center',
+    justifyContent: 'center',
   },
-  connectBtnText: { color: '#fff', fontSize: 13, fontWeight: '800' },
-  connectSuccess: { fontSize: 12, color: '#2E7D32', fontWeight: '600' },
-  connectError: { fontSize: 12, color: '#C62828', fontWeight: '600' },
-
-  // Danger
-  dangerCard: {
-    borderColor: '#FFD8D8',
-    shadowColor: '#FF8888',
+  connectBtnText: {
+    color: '#FFFFFF',
+    fontSize: 13,
+    fontWeight: '700',
   },
-  deleteBtn: {
-    backgroundColor: '#FF4444',
+  deleteChildBtn: {
+    backgroundColor: '#EF4444',
     borderRadius: 12,
-    paddingVertical: 11,
+    paddingHorizontal: 16,
     alignItems: 'center',
+    justifyContent: 'center',
   },
-  deleteBtnText: { color: '#fff', fontSize: 13, fontWeight: '800' },
+  deleteChildBtnText: {
+    color: '#FFFFFF',
+    fontSize: 13,
+    fontWeight: '700',
+  },
+  btnDisabled: {
+    opacity: 0.6,
+  },
+  connectSuccess: {
+    fontSize: 12,
+    color: '#16A34A',
+    fontWeight: '600',
+  },
+  connectError: {
+    fontSize: 12,
+    color: '#DC2626',
+    fontWeight: '600',
+  },
 
-  // Sign out / Delete Account
+  // Sign out / Account Actions
   logOutBtn: {
-    flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8,
-    marginHorizontal: 16, marginBottom: 12,
-    backgroundColor: '#EEF2FF', borderRadius: 16,
-    paddingVertical: 14,
-    borderWidth: 1, borderColor: '#C7D2FE',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 16,
+    paddingVertical: 13,
+    borderWidth: 1,
+    borderColor: '#E2E8F0',
+    shadowColor: '#0F172A',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.03,
+    shadowRadius: 4,
+    elevation: 1,
   },
-  logOutText: { fontSize: 14, fontWeight: '800', color: '#2D5DC9' },
-  signOutBtn: {
-    flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8,
-    marginHorizontal: 16, marginBottom: 12,
-    backgroundColor: '#FFF0F0', borderRadius: 16,
-    paddingVertical: 14,
-    borderWidth: 1, borderColor: '#FFD8D8',
+  logOutText: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: '#2563EB',
   },
-  signOutText: { fontSize: 14, fontWeight: '800', color: '#FF4444' },
+  deleteAccountBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    backgroundColor: '#FEF2F2',
+    borderRadius: 16,
+    paddingVertical: 13,
+    borderWidth: 1,
+    borderColor: '#FECACA',
+  },
+  deleteAccountText: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: '#DC2626',
+  },
 
-  // Modal
+  // Modals
   modalOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.5)',
+    backgroundColor: 'rgba(15, 23, 42, 0.6)',
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
   },
   modalContent: {
-    backgroundColor: '#fff',
-    borderRadius: 20,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 24,
     padding: 24,
     width: '100%',
-    maxWidth: 400,
+    maxWidth: 420,
     gap: 16,
+    shadowColor: '#0F172A',
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.15,
+    shadowRadius: 20,
+    elevation: 8,
+    borderWidth: 1,
+    borderColor: '#E8ECF4',
   },
   modalTitle: {
     fontSize: 18,
     fontWeight: '800',
-    color: '#1a1a2e',
+    color: '#0F172A',
   },
   modalText: {
     fontSize: 14,
-    color: '#5A5A7A',
-    lineHeight: 20,
+    color: '#475569',
+    lineHeight: 22,
   },
   modalActions: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    gap: 12,
+    gap: 10,
     marginTop: 8,
   },
   modalBtnCancel: {
-    paddingVertical: 10,
+    paddingVertical: 9,
     paddingHorizontal: 16,
-    borderRadius: 12,
-    backgroundColor: '#F4F5FF',
+    borderRadius: 10,
+    backgroundColor: '#F1F5F9',
   },
   modalBtnCancelText: {
-    fontSize: 14,
+    fontSize: 13,
     fontWeight: '700',
-    color: '#5A5A7A',
+    color: '#475569',
   },
   modalBtnDelete: {
-    paddingVertical: 10,
+    paddingVertical: 9,
     paddingHorizontal: 16,
-    borderRadius: 12,
-    backgroundColor: '#FF4444',
+    borderRadius: 10,
+    backgroundColor: '#EF4444',
   },
   modalBtnDeleteText: {
+    fontSize: 13,
+    fontWeight: '700',
+    color: '#FFFFFF',
+  },
+
+  // Photo Sheet Modal (Mobile)
+  photoSheetContent: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 24,
+    borderWidth: 1,
+    borderColor: '#E8ECF4',
+    padding: 22,
+    width: '100%',
+    maxWidth: 400,
+    shadowColor: '#0F172A',
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.15,
+    shadowRadius: 20,
+    elevation: 8,
+  },
+  photoSheetHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  photoSheetCloseBtn: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: '#F1F5F9',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  photoOptionsList: {
+    gap: 10,
+  },
+  photoOptionRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    padding: 12,
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: '#F1F5F9',
+    backgroundColor: '#F8FAFC',
+  },
+  photoOptionRowDanger: {
+    borderColor: '#FEE2E2',
+    backgroundColor: '#FFF5F5',
+  },
+  photoOptionIconBox: {
+    width: 40,
+    height: 40,
+    borderRadius: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  photoOptionTextCol: {
+    flex: 1,
+  },
+  photoOptionTitle: {
     fontSize: 14,
     fontWeight: '700',
-    color: '#fff',
+    color: '#0F172A',
+  },
+  photoOptionSubtitle: {
+    fontSize: 11,
+    color: '#64748B',
+    marginTop: 1,
   },
 });

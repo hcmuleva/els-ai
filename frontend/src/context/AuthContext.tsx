@@ -86,6 +86,7 @@ type AuthContextValue = {
   deleteChildAccount: (registrationId: string) => Promise<{ success: boolean; error?: string }>;
   deleteAccount: () => Promise<{ success: boolean; error?: string }>;
   changePassword: (currentPassword: string, newPassword: string) => Promise<{ success: boolean; error?: string }>;
+  updateProfileImage: (profileImage: string | null) => Promise<{ success: boolean; error?: string }>;
   studentSelectedClass: string;
   setStudentSelectedClass: (cls: string) => Promise<void>;
 };
@@ -441,6 +442,28 @@ export function AuthProvider({ children }: PropsWithChildren) {
     }
   };
 
+  const updateProfileImage = useCallback(async (profileImage: string | null) => {
+    try {
+      const res = await apiFetch('/users/me/profile-image', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ profileImage }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        return { success: false, error: data.message || 'Failed to update profile image' };
+      }
+      const updatedUser = data.user || (userRef.current ? { ...userRef.current, profileImage: profileImage || undefined } : null);
+      if (updatedUser) {
+        await setStorageItem('user', JSON.stringify(updatedUser));
+        setUser(updatedUser);
+      }
+      return { success: true };
+    } catch (e: any) {
+      return { success: false, error: e.message || 'Network error updating profile photo' };
+    }
+  }, [apiFetch]);
+
   const value = useMemo(
     () => ({
       user,
@@ -455,10 +478,11 @@ export function AuthProvider({ children }: PropsWithChildren) {
       deleteAccount,
       deleteChildAccount,
       changePassword,
+      updateProfileImage,
       studentSelectedClass,
       setStudentSelectedClass,
     }),
-    [isAuthenticated, isLoading, user, refreshUser, apiFetch, studentSelectedClass, setStudentSelectedClass],
+    [isAuthenticated, isLoading, user, refreshUser, apiFetch, updateProfileImage, studentSelectedClass, setStudentSelectedClass],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

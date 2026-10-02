@@ -51,6 +51,7 @@ const updateUserSchema = z
     studentClasses: z.array(z.string().trim().min(1).max(50)).optional(),
     isAllStudentClasses: z.boolean().optional(),
     isActive: z.boolean().optional(),
+    profileImage: z.string().trim().nullable().optional(),
 })
     .refine((value) => Object.values(value).some((item) => item !== undefined), {
     message: 'At least one field must be provided',
@@ -440,6 +441,32 @@ usersRouter.patch('/me/password', requireAuth, async (req, res) => {
         return res.status(500).json({ message: 'Failed to update password' });
     }
 });
+usersRouter.patch('/me/profile-image', requireAuth, async (req, res) => {
+    const userId = req.user?.userId;
+    if (!userId)
+        return res.status(401).json({ message: 'Unauthorized' });
+    const { profileImage } = req.body;
+    if (profileImage !== null && profileImage !== undefined && typeof profileImage !== 'string') {
+        return res.status(400).json({ message: 'Invalid profileImage format' });
+    }
+    try {
+        const cleanImage = typeof profileImage === 'string' && profileImage.trim().length > 0 ? profileImage.trim() : null;
+        await db.query(`UPDATE users
+       SET profile_image = $1, updated_at = NOW()
+       WHERE id = $2`, [cleanImage, userId]);
+        const organizationId = getRequestOrganizationId(req);
+        const updatedUser = await getUserWithRoles(userId, organizationId || undefined);
+        if (!updatedUser) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        const response = updatedUser;
+        return res.json({ success: true, user: response });
+    }
+    catch (error) {
+        console.error('Failed to update profile image:', error);
+        return res.status(500).json({ message: 'Failed to update profile image' });
+    }
+});
 usersRouter.delete('/me', requireAuth, async (req, res) => {
     const userId = req.user?.userId;
     if (!userId)
@@ -826,7 +853,7 @@ usersRouter.patch('/:id', requireAuth, async (req, res) => {
     if ((membership.rowCount ?? 0) === 0) {
         return res.status(404).json({ message: 'User not found in your organization' });
     }
-    const { firstName, lastName, email, mobileNumber, password, classLevel, branch, activeRole, roles, studentClasses, isAllStudentClasses, isActive } = parsedBody.data;
+    const { firstName, lastName, email, mobileNumber, password, classLevel, branch, activeRole, roles, studentClasses, isAllStudentClasses, isActive, profileImage } = parsedBody.data;
     const callerSuper = await isSuperAdmin(req.user?.userId);
     const targetUserRolesResult = await db.query(`SELECT r.role_name
      FROM user_roles ur
@@ -939,6 +966,10 @@ usersRouter.patch('/:id', requireAuth, async (req, res) => {
     if (isActive !== undefined) {
         params.push(isActive);
         updates.push(`is_active = $${params.length}`);
+    }
+    if (profileImage !== undefined) {
+        params.push(profileImage || null);
+        updates.push(`profile_image = $${params.length}`);
     }
     params.push(userId);
     updates.push(`updated_at = NOW()`);
