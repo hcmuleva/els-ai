@@ -120,7 +120,30 @@ class AgentRouter {
 
 export const agentRouter = new AgentRouter();
 
-// 1. Groq Provider (prioritized if GROQ_API_KEY is configured)
+// 1. Local Ollama Provider (prioritized if running locally)
+agentRouter.register(createOllamaProvider());
+
+// 2. Google Gemini / Cloud AI Provider (used when AI_MODEL_API_KEY is configured and no local model is available)
+const aiModelApiKey = (
+  process.env.AI_MODEL_API_KEY ||
+  process.env.GEMINI_API_KEY ||
+  process.env.AI_API_KEY
+)?.trim();
+
+if (aiModelApiKey) {
+  const isGemini = aiModelApiKey.startsWith('AQ.') || aiModelApiKey.startsWith('AIza') || !process.env.AI_MODEL_BASE_URL;
+  agentRouter.register(
+    createDynamicProvider({
+      id: isGemini ? 'gemini' : 'cloud-ai',
+      label: isGemini ? 'Google Gemini (Gemini 2.5 Flash)' : 'Cloud AI',
+      apiKey: aiModelApiKey,
+      baseUrl: process.env.AI_MODEL_BASE_URL || (isGemini ? 'https://generativelanguage.googleapis.com/v1beta/openai' : 'https://api.openai.com/v1'),
+      model: process.env.AI_MODEL || (isGemini ? 'gemini-2.5-flash' : 'gpt-4o-mini'),
+    }),
+  );
+}
+
+// 3. Groq Provider (if GROQ_API_KEY is configured)
 const groqApiKey = process.env.GROQ_API_KEY?.trim();
 if (groqApiKey) {
   agentRouter.register(
@@ -129,12 +152,12 @@ if (groqApiKey) {
       label: 'Groq',
       apiKey: groqApiKey,
       baseUrl: process.env.GROQ_BASE_URL || 'https://api.groq.com/openai/v1',
-      model: process.env.GROQ_MODEL,
+      model: process.env.GROQ_MODEL || 'llama-3.3-70b-versatile',
     }),
   );
 }
 
-// 2. Factory AI Provider (only if an explicit chat completions BASE_URL is configured)
+// 4. Factory AI Provider (only if an explicit chat completions BASE_URL is configured)
 const factoryApiKey = process.env.FACTORY_API_KEY?.trim();
 if (factoryApiKey && process.env.FACTORY_BASE_URL) {
   agentRouter.register(
@@ -148,21 +171,7 @@ if (factoryApiKey && process.env.FACTORY_BASE_URL) {
   );
 }
 
-// 2. Generic AI Provider (if AI_API_KEY is configured)
-const aiApiKey = process.env.AI_API_KEY?.trim();
-if (aiApiKey) {
-  agentRouter.register(
-    createDynamicProvider({
-      id: 'ai',
-      label: 'Dynamic AI Provider',
-      apiKey: aiApiKey,
-      baseUrl: process.env.AI_BASE_URL || 'https://api.openai.com/v1',
-      model: process.env.AI_MODEL,
-    }),
-  );
-}
-
-// 3. OpenAI Provider (if OPENAI_API_KEY is configured)
+// 5. OpenAI Provider (if OPENAI_API_KEY is configured)
 const openaiApiKey = process.env.OPENAI_API_KEY?.trim();
 if (openaiApiKey) {
   agentRouter.register(
@@ -175,7 +184,4 @@ if (openaiApiKey) {
     }),
   );
 }
-
-// 4. Local Ollama Provider (fallback)
-agentRouter.register(createOllamaProvider());
 

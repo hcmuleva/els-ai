@@ -79,6 +79,7 @@ export function createDynamicProvider(config: DynamicProviderConfig): AgentProvi
 
     async isAvailable(): Promise<boolean> {
       if (!apiKey) return false;
+      if (config.model) return true;
       try {
         const models = await fetchAvailableModels(baseUrl, apiKey, 2000);
         return models.length > 0;

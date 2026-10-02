@@ -6,6 +6,7 @@ metadata:
 data:
   NODE_ENV: "production"
   PORT: "4000"
+  API_GATEWAY_URL: "http://gateway:4000"
   CORE_API_URL: "http://core-api:4020"
   MEDIA_API_URL: "http://media-api:4004"
   EDUCATION_AI_API_URL: "http://education-ai-api:4003"

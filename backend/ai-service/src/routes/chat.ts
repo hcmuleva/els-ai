@@ -147,7 +147,7 @@ chatRouter.post('/', requireAuth, async (req: AuthenticatedRequest, res) => {
     return res.status(401).json({ message: 'Authorization header required' });
   }
 
-  const gatewayBaseUrl = process.env.API_GATEWAY_URL || 'http://localhost:4000';
+  const gatewayBaseUrl = process.env.API_GATEWAY_URL || (process.env.NODE_ENV === 'production' ? 'http://gateway:4000' : 'http://localhost:4000');
   const role = req.user?.role;
   const {
     conversationId,
@@ -446,7 +446,7 @@ export const aiConversationsProxyRouter = Router();
 // also exposes /ai-conversations directly for symmetry/administration.)
 aiConversationsProxyRouter.get('/conversations', requireAuth, async (req: AuthenticatedRequest, res) => {
   const authorization = req.headers.authorization!;
-  const gatewayBaseUrl = process.env.API_GATEWAY_URL || 'http://localhost:4000';
+  const gatewayBaseUrl = process.env.API_GATEWAY_URL || (process.env.NODE_ENV === 'production' ? 'http://gateway:4000' : 'http://localhost:4000');
   const response = await fetch(`${gatewayBaseUrl}/ai-conversations`, { headers: { Authorization: authorization } });
   const data = await response.json().catch(() => ({}));
   return res.status(response.status).json(data);
@@ -454,7 +454,7 @@ aiConversationsProxyRouter.get('/conversations', requireAuth, async (req: Authen
 
 aiConversationsProxyRouter.get('/conversations/:id/messages', requireAuth, async (req: AuthenticatedRequest, res) => {
   const authorization = req.headers.authorization!;
-  const gatewayBaseUrl = process.env.API_GATEWAY_URL || 'http://localhost:4000';
+  const gatewayBaseUrl = process.env.API_GATEWAY_URL || (process.env.NODE_ENV === 'production' ? 'http://gateway:4000' : 'http://localhost:4000');
   const response = await fetch(`${gatewayBaseUrl}/ai-conversations/${req.params.id}/messages`, {
     headers: { Authorization: authorization },
   });

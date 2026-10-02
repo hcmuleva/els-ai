@@ -12,8 +12,11 @@ export function createOllamaProvider() {
         id: 'ollama',
         label: `Local (Ollama · ${model})`,
         async isAvailable() {
+            if (process.env.NODE_ENV === 'production' && (!process.env.OLLAMA_BASE_URL || process.env.OLLAMA_BASE_URL.includes('localhost'))) {
+                return false;
+            }
             try {
-                const res = await fetch(`${baseUrl}/api/tags`, { signal: AbortSignal.timeout(2000) });
+                const res = await fetch(`${baseUrl}/api/tags`, { signal: AbortSignal.timeout(1500) });
                 return res.ok;
             }
             catch {

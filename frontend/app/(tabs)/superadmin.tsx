@@ -48,6 +48,8 @@ const CREATABLE_ROLES = ['student', 'teacher', 'parent', 'admin', 'superadmin'] 
 type CreatableRole = (typeof CREATABLE_ROLES)[number];
 
 export default function SuperadminPage() {
+  const { width: windowWidth } = useWindowDimensions();
+  const isDesktop = windowWidth >= 768;
   const { user, apiFetch } = useAuth();
   const isSuperadmin = user?.activeRole === 'superadmin' || user?.roles?.includes('superadmin');
 
@@ -401,9 +403,6 @@ export default function SuperadminPage() {
       </View>
     );
   }
-
-  const { width: windowWidth } = useWindowDimensions();
-  const isDesktop = windowWidth >= 768;
 
   return (
     <ScrollView contentContainerStyle={[styles.container, isDesktop && styles.containerDesktop]}>

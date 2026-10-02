@@ -105,7 +105,7 @@ aiRouter.post('/content-generator/persist', requireAuth, async (req, res) => {
     return res.status(401).json({ message: 'Authorization header required for persistence' });
   }
 
-  const gatewayBaseUrl = process.env.API_GATEWAY_URL || 'http://localhost:4000';
+  const gatewayBaseUrl = process.env.API_GATEWAY_URL || (process.env.NODE_ENV === 'production' ? 'http://gateway:4000' : 'http://localhost:4000');
   const target = {
     classLevel: parsed.data.classLevel,
     subject: parsed.data.subject,
@@ -139,7 +139,7 @@ aiRouter.post('/content-generator/run-and-persist', requireAuth, async (req, res
     return res.status(401).json({ message: 'Authorization header required for persistence' });
   }
 
-  const gatewayBaseUrl = process.env.API_GATEWAY_URL || 'http://localhost:4000';
+  const gatewayBaseUrl = process.env.API_GATEWAY_URL || (process.env.NODE_ENV === 'production' ? 'http://gateway:4000' : 'http://localhost:4000');
   const runOutput = runContentPipeline(parsed.data.runRequest);
 
   const target = {
